@@ -1,0 +1,82 @@
+<footer><div class="footer-inner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-sm-4 col-xs-12">
+        <h5>{{ text_service }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+          <li><a href="{{ return }}">{{ text_return }}</a></li>
+          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+          <li><a href="{{ account }}">{{ text_account }}</a></li>
+          <li><a href="{{ order }}">{{ text_order }}</a></li>
+          <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+        </ul>
+      </div>
+      
+      {% if informations %}
+      <div class="col-md-3 col-sm-4 col-xs-12">
+        <h5>{{ text_information }}</h5>
+        <ul class="list-unstyled">
+         {% for information in informations %}
+          <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
+        <h5>{{ text_extra }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+          <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+          <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+          <li><a href="{{ special }}">{{ text_special }}</a></li>
+        </ul>
+      </div>
+      
+      <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+        <div id="logo_footer">{% if logo %}<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>{% else %}
+            <h1><a href="{{ home }}">{{ name }}</a></h1>
+            {% endif %}</div>
+        <ul class="list-unstyled address clearfix">
+          {% if language == 'ar' %}
+          {% if arabic_address %}
+            <li><i class="fa fa-map-marker"></i><span>{{ arabic_address }}</span></li>
+          {% endif %}
+        {% else %}
+          {% if address %}
+            <li><i class="fa fa-map-marker"></i><span>{{ address }}</span></li>
+          {% endif %}
+          {% endif %}
+          {% if telephone %}
+            <li><i class="fa fa-phone"></i><span>{{ telephone }}</span></li>
+          {% endif %}
+          {% if language == 'ar' %}
+          {% if arabic_email %}
+            <li><i class="fa fa-map-marker"></i><span>{{ arabic_email }}</span></li>
+          {% endif %}
+        {% else %}
+          {% if email %}
+            <li><i class="fa fa-envelope"></i><span>{{ email }}</span></li>
+          {% endif %}
+          {% endif %}
+        </ul>
+        {% if address or telephone or email %}
+        {% endif %}
+        
+      </div>
+    </div>
+
+   
+  </div>
+  <div class="scrollup"><i class="fa fa-hand-o-up" aria-hidden="true"></i></div>
+</div><!--footer-inner-->
+</footer>
+{% for script in scripts %}
+<script src="{{ script }}" type="text/javascript"></script>
+{% endfor %}
+<!--
+OpenCart is open source software and you are free to remove the powered by OpenCart if you want, but its generally accepted practise to make a small donation.
+Please donate via PayPal to donate@opencart.com
+//-->
+</body></html>

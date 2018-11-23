@@ -1,0 +1,36 @@
+<!-- <h3>Top Catalogue</h3> -->
+<div class="heading_obj text-center col-xs-12">
+  <h2>{{heading_title}}</h2>
+  <div class="obj col-sm-offset-3 col-sm-6 col-xs-12"><img src="image/custom/head.png" alt="head" /></div>
+</div>
+{% if brands %}
+<div id="brands" class="brands owl-carousel">
+      {% for brand in brands %}
+          {# {% if brand.manufacturer %} #}
+              {# {% for manufacturer in brand %} #}
+                <div class="item text-center">
+                
+                  <a href="{{ brand.href }}"><img src="{{ brand.image }}" class="img-responsive" alt="{{brand.name}}"></a>
+                  {# echo $manufacturer['name'];  #}
+                </div>
+              {# {% endfor %}{% endif %} #}
+            
+          {% endfor %}
+      
+    
+</div>
+{% endif %}
+<script>
+  $('#brands').owlCarousel({
+    items: 8,
+    itemsDesktop : [1199,8],
+    itemsDesktopSmall : [980,5],
+    itemsTablet: [768,3],
+    itemsMobile : [479,2],
+    itemsScaleUp : false,
+    autoPlay: 3000,
+    navigation: true,
+    navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
+    pagination: true
+  });
+</script>

@@ -1,0 +1,266 @@
+<section class="grp-tab">
+  <div id="tabs-{{ module }}" class="htabs clearfix">
+  {% if featured_products  or  bestseller_products  or  latest_products  or  special_products %}
+    <div class="heading_obj text-center col-xs-12">
+      <h2>{{heading_title}}</h2>
+      <div class="obj col-sm-offset-3 col-sm-6 col-xs-12"><img src="image/custom/head.png" alt="head" /></div>
+    </div>
+  <ul class="nav nav-tabs list-unstyled text-center clearfix col-xs-12">
+  {% if featured_products %}
+    <li class="active">
+    <a href="#tab-featured-{{ module }}" data-toggle="tab" class="selected"><h5>{{ tab_featured }}</h5></a></li>
+    {% endif %}
+    
+    {% if bestseller_products %}
+    <li>
+    <a href="#tab-bestseller-{{ module }}" data-toggle="tab"><h5>{{ tab_bestseller }}</h5></a></li>
+    {% endif %}
+    
+    {% if latest_products %}
+    <li>
+    <a href="#tab-latest-{{ module }}" data-toggle="tab"><h5>{{ tab_latest }}</h5></a></li>
+    {% endif %}
+    
+    {% if special_products %}
+    <li>
+    <a href="#tab-special-{{ module }}" data-toggle="tab"><h5>{{ tab_special }}</h5></a></li>
+    {% endif %}
+  </ul>
+  {% endif %}
+ </div>
+ 
+ 
+ <div class="tab-content home-h-tabs clearfix">
+{% if latest_products %}
+ <div id="tab-latest-{{ module }}" class="tab-content product_carousel">
+    <div id="hor_latest" class="box-content product_carousel owl-carousel">
+      {% for product in latest_products %} 
+      <div class="product-layout item">
+          <div class="product-thumb transition">
+            <div class="image">
+            <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a>
+            </div>
+            <div class="caption">
+              <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                <div class="rating">
+                  {% for i in 1..5 %}
+                  {% if product.rating < i %}
+                  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                  {% else %}
+                  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+                  {% if (product['off_label']) %}
+          <span class="pull-left text-uppercase off">{{product['off_label']}}%&nbsp; OFF</span>
+          {% endif %}
+                <table><tr>
+              {% if product.price %}
+              <td><p class="price">
+                {% if not product.special %}
+                {{ product.price }}
+                {% else %}
+                <span class="price-new">{{ product.special }}</span> <br/>
+                <span class="price-old">{{ product.price }}</span>
+                {% endif %}
+                {#  if ($product['tax']) { ?>
+                <span class="price-tax"><?php echo $text_tax; ?> <?php echo $product['tax']; ?></span>
+                <?php } #}
+              </p></td>
+               {% endif %}
+               <td>
+      <div class="cart-add">
+        <button type="button" class="btn btn-primary" onclick="cart.add('{{ product.product_id }}');">{{ button_cart }}</button>
+        </div>
+    </td></tr></table>
+            </div>
+            <div class="button-group">
+              
+              <button type="button" class="btn btn-outline-inverse" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+              <button type="button" class="btn btn-outline-inverse" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+ </div> {% endif %}
+
+{% if featured_products %}
+  <div id="tab-featured-{{ module }}" class="tab-content product_carousel">
+    <div id="hor_featured" class="box-content product_carousel owl-carousel">
+      {% for product in featured_products %}
+      <div class="product-layout item">
+          <div class="product-thumb transition">
+            <div class="image">
+            <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a>
+            </div>
+            <div class="caption">
+              <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+               {# {% if product.rating %} #}
+                <div class="rating">
+                  {% for i in 1..5 %}
+                  {% if product.rating < i %}
+                  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                  {% else %}
+                  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+                {# {% endif %} #}
+                {% if (product['off_label']) %}
+          <span class="pull-left text-uppercase off">{{product['off_label']}}%&nbsp; OFF</span>
+          {% endif %}
+                <table><tr>
+              {% if product.price %}
+              <td><p class="price">
+                {% if not product.special %}
+                {{ product.price }}
+                {% else %}
+                <span class="price-new">{{ product.special }}</span> <br/>
+                <span class="price-old">{{ product.price }}</span>
+                {% endif %}
+                {#  if ($product['tax']) { ?>
+                <span class="price-tax"><?php echo $text_tax; ?> <?php echo $product['tax']; ?></span>
+                <?php } #}
+              </p></td>
+               {% endif %}
+               <td>
+      <div class="cart-add">
+        <button type="button" class="btn btn-primary" onclick="cart.add('{{ product.product_id }}');">{{ button_cart }}</button>
+        </div>
+    </td></tr></table>
+            </div>
+            <div class="button-group">
+              
+              <button type="button" class="btn btn-outline-inverse" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+              <button type="button" class="btn btn-outline-inverse" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+    </div>
+ </div>
+{% endif %}
+
+{% if bestseller_products %}
+ <div id="tab-bestseller-{{ module }}" class="tab-content product_carousel">
+    <div id="hor_bestseller" class="box-content product_carousel owl-carousel">
+      {% for product in bestseller_products %}
+      <div class="product-layout item">
+          <div class="product-thumb transition">
+            <div class="image">
+            <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a>
+            </div>
+            <div class="caption">
+              <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+               {# {% if product.rating %} #}
+                <div class="rating">
+                  {% for i in 1..5 %}
+                  {% if product.rating < i %}
+                  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                  {% else %}
+                  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+                {# {% endif %} #}
+                {% if (product['off_label']) %}
+          <span class="pull-left text-uppercase off">{{product['off_label']}}%&nbsp; OFF</span>
+          {% endif %}
+                <table><tr>
+              {% if product.price %}
+              <td><p class="price">
+                {% if not product.special %}
+                {{ product.price }}
+                {% else %}
+                <span class="price-new">{{ product.special }}</span> <br/>
+                <span class="price-old">{{ product.price }}</span>
+                {% endif %}
+                {#  if ($product['tax']) { ?>
+                <span class="price-tax"><?php echo $text_tax; ?> <?php echo $product['tax']; ?></span>
+                <?php } #}
+              </p></td>
+               {% endif %}
+               <td>
+      <div class="cart-add">
+        <button type="button" class="btn btn-primary" onclick="cart.add('{{ product.product_id }}');">{{ button_cart }}</button>
+        </div>
+    </td></tr></table>
+            </div>
+            <div class="button-group">
+              
+              <button type="button" class="btn btn-outline-inverse" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+              <button type="button" class="btn btn-outline-inverse" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+    </div>
+ </div>
+{% endif %}
+
+{% if special_products %}
+ <div id="tab-special-{{ module }}" class="tab-content product_carousel">
+    <div id="hor_special" class="box-content product_carousel owl-carousel">
+      {% for product in special_products %}
+      <div class="product-layout item">
+          <div class="product-thumb transition">
+            <div class="image">
+            <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a>
+            </div>
+            <div class="caption">
+              <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+               {# {% if product.rating %} #}
+                <div class="rating">
+                  {% for i in 1..5 %}
+                  {% if product.rating < i %}
+                  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                  {% else %}
+                  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+                {# {% endif %} #}
+                {% if (product['off_label']) %}
+          <span class="pull-left text-uppercase off">{{product['off_label']}}%&nbsp; OFF</span>
+          {% endif %}
+                <table><tr>
+              {% if product.price %}
+              <td><p class="price">
+                {% if not product.special %}
+                {{ product.price }}
+                {% else %}
+                <span class="price-new">{{ product.special }}</span> <br/>
+                <span class="price-old">{{ product.price }}</span>
+                {% endif %}
+                {#  if ($product['tax']) { ?>
+                <span class="price-tax"><?php echo $text_tax; ?> <?php echo $product['tax']; ?></span>
+                <?php } #}
+              </p></td>
+               {% endif %}
+               <td>
+      <div class="cart-add">
+        <button type="button" class="btn btn-primary" onclick="cart.add('{{ product.product_id }}');">{{ button_cart }}</button>
+        </div>
+    </td></tr></table>
+            </div>
+            <div class="button-group">
+              
+              <button type="button" class="btn btn-outline-inverse" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+              <button type="button" class="btn btn-outline-inverse" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+    
+    </div>
+ </div>
+{% endif %}
+</div>
+</section>
+<script>
+$('#tabs-{{ module }} a').tabs();
+</script> 

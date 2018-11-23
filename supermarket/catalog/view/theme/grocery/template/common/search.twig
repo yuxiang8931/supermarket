@@ -1,0 +1,129 @@
+<div id="search" class="input-group">
+  <input type="text" name="search" value="{{ search }}" placeholder="{{ text_search }}" class="form-control input-lg" />
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
+  </span>
+</div>
+<script>
+    $.fn.autosearch = function(option) {
+        return this.each(function() {
+            this.timer = null;
+            this.items = new Array();
+            this.minLength = 2;
+
+            $.extend(this, option);
+    
+            $(this).attr('autocomplete', 'off');
+            
+            // Focus
+            $(this).on('focus', function() {
+                //this.request();
+            });
+            
+            // Blur
+            $(this).on('blur', function() {
+                setTimeout(function(object) {
+                    object.hide();
+                }, 200, this);              
+            });
+            
+            // Keydown
+            $(this).on('input', function(event) {
+                if (event.keyCode == 27) {
+                    this.hide();
+                } else if (this.value.length <= this.minLength) {
+                    this.hide();
+                } else {
+                    this.request();
+                }
+            });
+            
+            // Show
+            this.show = function() {
+                var pos = $(this).position();
+    
+                $(this).siblings('ul.dropdown-menu').css({
+                    top: pos.top + $(this).outerHeight(),
+                    left: pos.left
+                });
+    
+                $(this).siblings('ul.dropdown-menu').show();
+            }
+            
+            // Hide
+            this.hide = function() {
+                $(this).siblings('ul.dropdown-menu').hide();
+            }       
+            
+            // Request
+            this.request = function() {
+                clearTimeout(this.timer);
+        
+                this.timer = setTimeout(function(object) {
+                    object.source($(object).val(), $.proxy(object.response, object));
+                }, 200, this);
+            }
+            
+            // Response
+            this.response = function(json) {
+                html = '';
+    
+                if (json.length) {
+                    for (i = 0; i < json.length; i++) {
+                        this.items[json[i]['value']] = json[i];
+                    }
+    
+                    for (i = 0; i < json.length; i++) {
+                        if (!json[i]['category']) {
+                            html += '<a href="' + json[i]['href'] + '" style="padding:0px;width:100%;">';
+                            html += '<li class="pull-left"style="width:100%;border-bottom:1px solid rgba(0,0,0,.15);background-color:#fff; padding: 0 0 0 5px;" data-value="' + json[i]['value'] + '">';
+                            html += '<div class="search-thumb" style="float:left;margin-right:15px;"><img src="' + json[i]['image'] + '"/></div>';
+
+                            html += '<div style="margin-top:15px;"><div class="search-name" style="float:left; font-weight: bold;">' + json[i]['label'] + '</div><br/>';
+                            if(json[i]['special'] == '' ) {
+                            	html += '<div class="search-price" style="float:left;color:#000;">' + json[i]['price'] + '</div></div>';
+                          	} else {
+                            html += '<div class="search-spclprice price-new" style="float:left;color:#000;"><b>' + json[i]['special'] + '</b><span class="price-old" style="text-decoration: line-through;color:red;display:inline-block;padding-left:5px;">' + json[i]['price'] + '</span></div></div>';
+                          	}
+                            html += '<div style="clear:both;"></div></li>';
+                            html += '</a><div style="height:2px;"></div>';
+                        }
+                    }
+                }
+    
+                if (html) {
+                    this.show();
+                } else {
+                    this.hide();
+                }
+    
+                $(this).siblings('ul.dropdown-menu').html(html);
+            }
+            
+            $(this).after('<ul class="dropdown-menu" style="padding:0;width:100%;font-size:14px;border-radius:0;max-height:450px;overflow-y:auto;min-height:auto;"></ul>');
+            $(this).siblings('ul.dropdown-menu').delegate('a', 'click', $.proxy(this.click, this)); 
+            
+        });
+    };
+    
+    $('input[name=\'search\']').autosearch({
+        'source': function(request, response) {
+            $.ajax({
+                url: 'index.php?route=common/search/autosearch&filter_name=' +  encodeURIComponent(request),
+                dataType: 'json',
+                success: function(json) {
+                    response($.map(json, function(item) {
+                        return {
+                            label: item.name,
+                            value: item.product_id,
+                            image: item.image,
+                            price: item.price,
+                            special: item.special,
+                            href: item.href,
+                        }
+                    }));
+                }
+            });
+        }
+    });
+</script>

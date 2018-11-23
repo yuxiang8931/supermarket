@@ -1,0 +1,26 @@
+<div class="category-slide-wrap clearfix">
+<div class="heading_obj text-center col-xs-12">
+      <h2>{{ heading_title }}</h2>
+      <div class="obj col-sm-offset-3 col-sm-6 col-xs-12"><img src="image/custom/head.png" alt="head" /></div>
+    </div>
+<div class="category-slide owl-carousel pull-left">
+  {% for category in categories %}  <div class="item text-center">
+    <a href="{{ category.href }}"><img src="{{ category.image }}"  alt="{{ category.name }}" /></a>
+    <p>{{ category.name }}</p>
+  </div>
+  {% endfor %}
+</div>
+</div>
+<script>
+$('.category-slide').owlCarousel({
+  items: '{{limit}}',
+  itemsDesktop : [1199,7],
+  itemsDesktopSmall : [980,5],
+  itemsTablet: [768,4],
+  itemsTabletSmall: [768,4],
+  itemsMobile : [479,1],
+  navigation: true,
+  navigationText: ['<i class="fa fa-chevron-left fa-1x"></i>', '<i class="fa fa-chevron-right fa-1x"></i>'],
+  pagination: false,
+});
+</script>

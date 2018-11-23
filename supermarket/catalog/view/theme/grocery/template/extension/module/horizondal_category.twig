@@ -1,0 +1,81 @@
+<div class="category_block clearfix">
+{% if categories.children %}
+  <div class="category_header clearfix">
+      <h3 class="pull-left">{{ categories.main_category.name }}</h3>
+       <div class="col-sm-3 col-xs-12 no-padding visible-xs hidden-sm hidden-md hidden-lg">
+          <a href="#"><img class="thumbnail" src="{{ thumb }}" alt="banners" /></a>
+        </div>
+      <ul class="list-unstyled nav nav-tabs clearfix pull-right">
+  {% for child in categories.children %}
+            <li class=""><a data-toggle="tab" href="#{{ child.category_id }}">{{ child.name }}</a></li>
+   {% endfor %}
+      </ul>
+  </div><!--category_header-->
+
+            <div class="col-sm-3 col-xs-12 no-padding img-block hidden-xs visible-sm visible-md visible-lg">
+              <a href="#"><img class="thumbnail" src="{{ thumb }}" alt="banners" /></a>
+            </div>
+
+            <div class="tab-content category_products col-sm-9 col-xs-12 products-block">
+              
+      {% for child in categories.children %}
+          <div class="tab_wrap tab-pane fade in" id="{{ child.category_id }}">
+            
+            {% if child.products is empty %} 
+             
+              <div class="no-products"><h4 class="text-capitalize">There are no products Under the category!!</h4></div>
+            {% else %}
+          <div  id="product_carousel_horizondal_{{child.category_id}}" class="product_carousel owl-carousel">
+          {% for product in child.products %}
+            <div class="product-layout item" >
+              <div class="product-thumb transition">
+                <div class="image"><a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a></div>
+                <div class="caption">
+                  <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                  <div class="rating">
+                    {% for i in 1..5 %}
+                    {% if product.rating < i %}
+                    <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                    {% else %}
+                    <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                    {% endif %}
+                    {% endfor %}
+                  </div>
+                  {% if (product['off_label']) %}
+          <span class="pull-left text-uppercase off">{{product['off_label']}}%&nbsp; OFF</span>
+          {% endif %}
+                  <table><tr>
+                    
+                  {% if product.price %}
+                  <td><p class="price">
+                    {% if not product.special %}
+                    {{ product.price }}
+                    {% else %}
+                    <span class="price-new">{{ product.special }}</span><br/><span class="price-old">{{ product.price }}</span>
+                    {% endif %}
+                  </p></td>
+                  {% endif %}
+
+                  <td>
+            <div class="cart-add">
+              <button type="button" class="btn btn-primary" onclick="cart.add('{{ product.product_id }}');">{{ button_cart }}</button>
+              </div>
+          </td></tr></table>
+                </div>
+                <div class="button-group">
+                  
+                  <button type="button" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+                  <button type="button" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+                </div>
+              </div>
+            </div>
+          
+          {% endfor %} 
+            </div><!--owl-carousel-->
+        {% endif %}
+          </div><!--tab-wrap-->
+ 
+{% endfor %}
+</div><!--tab-content-->
+{% endif %}
+</div><!--category_block-->
